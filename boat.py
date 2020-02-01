@@ -11,13 +11,11 @@ class BoatState:
 
     # all validity checks are performed here, not in result()
     def actions(self):
-
         def okay(m, c):
             if m == 0:
                 return True
             else:
                 return m >= c
-
         to_return = []
         if self.mboat + self.cboat >= 1 and okay(self.mdiff + self.mboat, self.cdiff + self.cboat):
             to_return.append('move and offload')
