@@ -39,3 +39,15 @@ class BoatState:
             new_state.cboat = 0
             new_state.mdiff = 3 - new_state.msame
             new_state.cdiff = 3 - new_state.cdiff
+
+    def __str__(self):
+        if self.left:
+            left = ('M' * self.msame) + ('C' * self.csame)
+            boat = ('M' * self.mboat) + ('C' * self.cboat)
+            right = ('M' * self.mdiff) + ('C' * self.cdiff)
+            return left.rjust(6) + '|' + boat.ljust(4) + '|' + right.ljust(6)
+        else:
+            left = ('M' * self.mdiff) + ('C' * self.cdiff)
+            boat = ('M' * self.mboat) + ('C' * self.cboat)
+            right = ('M' * self.msame) + ('C' * self.csame)
+            return left.rjust(6) + '|' + boat.rjust(4) + '|' + right.ljust(6)
