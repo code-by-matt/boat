@@ -29,5 +29,13 @@ class BoatState:
                 to_return.append('onload ' + str(i) + 'c')
         return to_return
 
-    def result(self, state, action):
+    def result(self, old_state, action):
+        new_state = BoatState()
         if action == 'move and offload':
+            new_state.left = not old_state.left
+            new_state.msame = old_state.mdiff + old_state.mboat
+            new_state.csame = old_state.cdiff + old_state.cboat
+            new_state.mboat = 0
+            new_state.cboat = 0
+            new_state.mdiff = 3 - new_state.msame
+            new_state.cdiff = 3 - new_state.cdiff
