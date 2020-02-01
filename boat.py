@@ -7,6 +7,7 @@ class BoatState:
         self.cb = 0
         self.pos = 0
 
+    # all validity checks are performed here, not in result()
     def actions(self):
         to_return = []
         if self.mb + self.cb >= 1:
