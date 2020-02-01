@@ -1,3 +1,6 @@
+import heapq
+
+
 class BoatState: 
 
     def __init__(self):
@@ -101,3 +104,23 @@ class Node:
         self.parent = parent
         self.action = action
         self.path_cost = path_cost
+
+
+# returns the last node on an optimal path found by uniform-cost search
+def UCS():
+
+    def push(h, node):
+        heapq.heappush(h, (node.path_cost, len(h), node))
+    def pop(h):
+        return heapq.heappop(h)[2]
+
+    start = Node(BoatState(), None, None, 0)
+    h = []
+    push(h, start)
+    while True:
+        node = pop(h)
+        if goal(node):
+            return node
+        else:
+            for a in node.state.actions():
+                # expand the node here
