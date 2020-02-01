@@ -25,6 +25,12 @@ class BoatState:
         for i in [1, 2]:
             if i <= self.csame and self.mboat + self.cboat + i <= 2 and okay(self.mboat, self.cboat + i):
                 to_return.append('onload ' + str(i) + 'c')
+        for i in [1, 2]:
+            if i <= self.mboat and okay(self.mboat - i, self.csame):
+                to_return.append('offload ' + str(i) + 'm')
+        for i in [1, 2]:
+            if i <= self.cboat and okay(self.msame, self.csame + i):
+                to_return.append('offload ' + str(i) + 'c')
         return to_return
 
     def result(self, action):
