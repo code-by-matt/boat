@@ -92,3 +92,12 @@ class BoatState:
             boat = ('M' * self.mboat) + ('C' * self.cboat)
             right = ('M' * self.msame) + ('C' * self.csame)
             return left.rjust(6) + '|' + boat.rjust(4) + '|' + right.ljust(6)
+
+
+class Node:
+
+    def __init__(state, parent, action, path_cost):
+        self.state = state
+        self.parent = parent
+        self.action = action
+        self.path_cost = path_cost
