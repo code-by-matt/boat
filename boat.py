@@ -21,16 +21,16 @@ class BoatState:
             to_return.append('move and offload')
         for i in [1, 2]:
             if i <= self.msame and self.mboat + self.cboat + i <= 2 and okay(self.msame - i, self.csame):
-                to_return.append('onload ' + str(i) + 'm')
+                to_return.append('onload ' + str(i) + 'M')
         for i in [1, 2]:
             if i <= self.csame and self.mboat + self.cboat + i <= 2 and okay(self.mboat, self.cboat + i):
-                to_return.append('onload ' + str(i) + 'c')
+                to_return.append('onload ' + str(i) + 'C')
         for i in [1, 2]:
             if i <= self.mboat and okay(self.mboat - i, self.csame):
-                to_return.append('offload ' + str(i) + 'm')
+                to_return.append('offload ' + str(i) + 'M')
         for i in [1, 2]:
             if i <= self.cboat and okay(self.msame, self.csame + i):
-                to_return.append('offload ' + str(i) + 'c')
+                to_return.append('offload ' + str(i) + 'C')
         return to_return
 
     def result(self, action):
@@ -43,7 +43,7 @@ class BoatState:
             new_state.cboat = 0
             new_state.mdiff = 3 - new_state.msame
             new_state.cdiff = 3 - new_state.cdiff
-        elif action[-1] == 'm':
+        elif action[-1] == 'M':
             i = int(action[-2])
             new_state.left = self.left
             new_state.msame = self.msame - i
@@ -52,7 +52,7 @@ class BoatState:
             new_state.cboat = self.cboat
             new_state.mdiff = self.mdiff
             new_state.cdiff = self.cdiff
-        elif action[-1] == 'c':
+        elif action[-1] == 'C':
             i = int(action[-2])
             new_state.left = self.left
             new_state.msame = self.msame
