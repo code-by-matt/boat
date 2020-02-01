@@ -37,6 +37,24 @@ class BoatState:
             new_state.cboat = 0
             new_state.mdiff = 3 - new_state.msame
             new_state.cdiff = 3 - new_state.cdiff
+        elif action[-1] == 'm':
+            i = int(action[-2])
+            new_state.left = self.left
+            new_state.msame = self.msame - i
+            new_state.csame = self.csame
+            new_state.mboat = self.mboat + i
+            new_state.cboat = self.cboat
+            new_state.mdiff = self.mdiff
+            new_state.cdiff = self.cdiff
+        elif action[-1] == 'c':
+            i = int(action[-2])
+            new_state.left = self.left
+            new_state.msame = self.msame
+            new_state.csame = self.csame - i
+            new_state.mboat = self.mboat
+            new_state.cboat = self.cboat + i
+            new_state.mdiff = self.mdiff
+            new_state.cdiff = self.cdiff
         return new_state
 
     def __str__(self):
