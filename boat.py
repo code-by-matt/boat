@@ -117,7 +117,8 @@ def child(parent, action):
 # returns the last node on an optimal path found by uniform-cost graph search
 def UCS():
 
-    def push(h, node, n):
+    # push and pop are methods that make using heapq a little easier
+    def push(h, node, n):  # we make n always increasing as a way to break ties
         heapq.heappush(h, (node.path_cost, n, node))
     def pop(h):
         return heapq.heappop(h)[2]
@@ -126,26 +127,34 @@ def UCS():
     def goal(state):
         return tup(state) == (0, 3, 3, 0, 0, 0, 0)
 
-    explored = set()  # add tuplized versions of boat states to this so equality check is easy
-    counter = 0
-    h = []
+    # strategy implementation
+    h = []  # uses heapq to order frontier nodes by cost
+    n = 0   # increment n every time something is pushed
+
+    # checking for duplicates
+    explored = set()  # stores tuplized states of already expanded nodes
+    frontier = set()  # stores tuplized states of nodes in the frontier
 
     start = Node(BoatState(), None, None, 0)
     print(start.state)
-    push(h, start, counter)
-    counter += 1
+    push(h, start, n)
+    n += 1
+    frontier.add(tup(start.state))
     while len(h) > 0:
         node = pop(h)
+        frontier.remove(tup(node.state))
         explored.add(tup(node.state))
         if goal(node.state):
             return node
         else:
             for a in node.state.actions():
                 c = child(node, a)
-                if tup(c.state) not in explored:
-                    push(h, c, counter)
-                    counter += 1
+                if tup(c.state) not in explored and tup(c.state) not in frontier:
+                    push(h, c, n)
+                    n += 1
+                    frontier.add(tup(c.state))
+            # print the frontier; first thing printed is next to be expanded
             for e in h:
-                print(e[2].state, end=' ')
+                print(e[2].state, end=',')
             print()
     return None
