@@ -114,21 +114,28 @@ def child(parent, action):
         return Node(parent.state.result(action), parent, action, parent.path_cost)
 
 
-# returns the last node on an optimal path found by uniform-cost search
+# returns the last node on an optimal path found by uniform-cost graph search
 def UCS():
 
     def push(h, node):
         heapq.heappush(h, (node.path_cost, len(h), node))
     def pop(h):
         return heapq.heappop(h)[2]
+    def tup(state):
+        return (int(state.left), state.msame, state.csame, state.mboat, state.cboat, state.mdiff, state.cdiff)
 
     start = Node(BoatState(), None, None, 0)
+    explored = set()  # add tuplized versions of boat states to this so equality check is easy
     h = []
     push(h, start)
-    while True:
+    while len(h) > 0:
         node = pop(h)
+        explored.add(tup(node.state))
         if goal(node):
             return node
         else:
             for a in node.state.actions():
-                # expand the node here
+                child = child(node, a)
+                if tup(child.state) not in explored:
+                    push(h, child)
+    return None
