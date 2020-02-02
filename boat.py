@@ -45,7 +45,7 @@ class BoatState:
             new_state.mboat = 0
             new_state.cboat = 0
             new_state.mdiff = 3 - new_state.msame
-            new_state.cdiff = 3 - new_state.cdiff
+            new_state.cdiff = 3 - new_state.csame
         elif action[1] == 'n' and action[-1] == 'M':
             i = int(action[-2])
             new_state.left = self.left
@@ -117,25 +117,35 @@ def child(parent, action):
 # returns the last node on an optimal path found by uniform-cost graph search
 def UCS():
 
-    def push(h, node):
-        heapq.heappush(h, (node.path_cost, len(h), node))
+    def push(h, node, n):
+        heapq.heappush(h, (node.path_cost, n, node))
     def pop(h):
         return heapq.heappop(h)[2]
     def tup(state):
         return (int(state.left), state.msame, state.csame, state.mboat, state.cboat, state.mdiff, state.cdiff)
+    def goal(state):
+        return tup(state) == (0, 3, 3, 0, 0, 0, 0)
+
+    explored = set()  # add tuplized versions of boat states to this so equality check is easy
+    counter = 0
+    h = []
 
     start = Node(BoatState(), None, None, 0)
-    explored = set()  # add tuplized versions of boat states to this so equality check is easy
-    h = []
-    push(h, start)
+    print(start.state)
+    push(h, start, counter)
+    counter += 1
     while len(h) > 0:
         node = pop(h)
         explored.add(tup(node.state))
-        if goal(node):
+        if goal(node.state):
             return node
         else:
             for a in node.state.actions():
-                child = child(node, a)
-                if tup(child.state) not in explored:
-                    push(h, child)
+                c = child(node, a)
+                if tup(c.state) not in explored:
+                    push(h, c, counter)
+                    counter += 1
+            for e in h:
+                print(e[2].state, end=' ')
+            print()
     return None
