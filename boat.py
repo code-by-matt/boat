@@ -145,7 +145,12 @@ def UCS():
         frontier.remove(tup(node.state))
         explored.add(tup(node.state))
         if goal(node.state):
-            return node
+            to_return = []
+            curr = node
+            while curr.action != None:
+                to_return.append(curr.action)
+                curr = curr.parent
+            return to_return[::-1]
         else:
             for a in node.state.actions():
                 c = child(node, a)
