@@ -99,11 +99,19 @@ class BoatState:
 
 class Node:
 
-    def __init__(state, parent, action, path_cost):
+    def __init__(self, state, parent, action, path_cost):
         self.state = state
         self.parent = parent
         self.action = action
         self.path_cost = path_cost
+
+
+# returns the child formed by parent as a result of action
+def child(parent, action):
+    if action == 'move and offload':
+        return Node(parent.state.result(action), parent, action, parent.path_cost + 1)
+    else:
+        return Node(parent.state.result(action), parent, action, parent.path_cost)
 
 
 # returns the last node on an optimal path found by uniform-cost search
